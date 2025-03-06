@@ -1,19 +1,31 @@
-import numpy as np
 import cv2
+import os
 
-def visualize_current_trajectory():
-    # 画像に本来の位置を表示
-    # いずれこの誤差をNNか強化学習でほかしていく
-    pass
+# 画像が入ったディレクトリを指定
+image_dir = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\70mm_traj"
 
-def visualize_reference_trajectory():
-    # 画像に目標軌道を表示
-    # 目標軌道に思い通りに追従できるか？
-    pass
+# 動画のパラメータ
+output_path = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\70mm_traj\\output.mp4"  # 出力ファイル名
+fps = 10                    # フレームレート (1秒あたり何コマ表示するか)
 
-def analyze_trajectory():
-    # 先端の動きを一枚の画像に表示させるための関数
-    pass
+# ディレクトリ内の画像ファイルをソートして取得
+files = sorted([f for f in os.listdir(image_dir) 
+                if f.lower().endswith(('.jpg', '.png', '.jpeg'))])
 
-def main():
-    pass
+# 最初の画像を読み込み、動画のサイズを取得
+first_image_path = os.path.join(image_dir, files[0])
+frame = cv2.imread(first_image_path)
+height, width, channels = frame.shape
+
+# VideoWriter の設定
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # 'DIVX', 'XVID', 'mp4v' など
+out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
+
+# 画像を順番に書き出す
+for file in files:
+    img_path = os.path.join(image_dir, file)
+    img = cv2.imread(img_path)
+    out.write(img)
+
+out.release()
+print("動画の書き出しが完了しました:", output_path)

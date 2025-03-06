@@ -1,6 +1,8 @@
 import os
 import cv2
 import numpy as np
+import signal
+import sys
 
 points = [] # 白い部分の座標を保存
 
@@ -100,16 +102,14 @@ def cal_current_degree(image, image_init):
 def visualize_reference_point(p_center, rho, phi):
     # 画像に本来の位置を表示
     # いずれこの誤差をNNか強化学習でほかしていく
-
     h = 0
-    h_pixel = 
+    h_pixel = 0
     # pixelとの対応
     px, py = p_center + h * np.cos(phi), p_center + h * np.sin(phi)
 
-def visualize_reference_trajectory():
-    # 画像に目標軌道を表示
-    # 目標軌道に思い通りに追従できるか？
-    pass
+def visualize_reference_trajectory(img, p_center):
+    cv2.circle(img, p_center, 70, (255, 0, 0), thickness=3)
+    # cv2.rectangle(img, (p_center[0] - 50, p_center[1] - 25), (p_center[0] + 50, p_center[1] + 25), (255, 0, 0), thickness=3)
 
 def analyze_trajectory():
     # 先端の動きを一枚の画像に表示させるための関数
