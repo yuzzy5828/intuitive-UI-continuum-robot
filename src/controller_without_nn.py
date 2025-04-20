@@ -25,8 +25,10 @@ class Model:
         モデルからモータ回転角(増分)のリストを返す。
         """
         # 内部でphiのみ符号反転＆ラジアン変換
-        self.phi = -phi * np.pi / 180.0
+        self.phi = - phi * np.pi / 180.0
         self.theta = theta * np.pi / 180  # [rad]に変換
+        if self.theta < 0.01:
+            self.theta = 0.01
 
         for i in range(len(self.delta_l)):
             # 幾何学モデルからdelta_lを計算 mm
@@ -60,12 +62,14 @@ class SerialBridge:
         # 出力側（アクチュエータArduino）用シリアル
         self.ser_out = serial.Serial(out_port, baudrate=baudrate, timeout=1)
 
+        self.ser_in.reset_input_buffer()
+
         # Arduinoリセット待ち
         time.sleep(5)
 
     def receive(self):
         """センサから文字列を1行受信して返す。"""
-        self.ser_in.reset_input_buffer()
+        #self.ser_in.reset_input_buffer()
         line = self.ser_in.readline().decode('utf-8').strip()
         return line
 
@@ -98,11 +102,11 @@ def main():
 
     # CSVファイルを開く
     csv_path_70mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\interface\\interface_70mm.csv"
-    csv_path_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\interface\\interface_95mm.csv"
+    csv_path_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\interface\\interface_100mm_3.csv"
     image_save_dir_70mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\interface\\images_70mm\\"
-    image_save_dir_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\interface\\images_95mm\\"
+    image_save_dir_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\interface\\images_100mm_3\\"
 
-    with open(csv_path_70mm, 'w', newline='') as f: #####
+    with open(csv_path_95mm, 'w', newline='') as f: #####
         writer = csv.writer(f)
 
         i = 0
@@ -111,7 +115,7 @@ def main():
             line = bridge.receive()
             if not line:
                 # 受信できなければ少し待機して再受信
-                time.sleep(0.15)
+                time.sleep(0.04)
                 continue
 
             # 受信データをパースして (phi_ref, theta_ref) に変換
@@ -122,14 +126,15 @@ def main():
                 if (i == 0):
                     phi_ref = data0
                     theta_ref = data1
-                elif (abs(data1) >= 50.0) or (abs(phi_ref - data0) > 100.0):
-                    pass
-                elif abs(data1) <= 0.01:
-                    phi_ref = data0
-                    theta_ref = 0.01                    
+                elif (abs(data1) >= 50.0): #or (abs(phi_ref - data0) > 100.0):
+                    pass                    
                 else:
                     phi_ref = data0
                     theta_ref = data1
+                
+                if abs(theta_ref) < 1.0:
+                    theta_ref == 1.0
+                
                 print(f"Received: theta_ref={theta_ref}, phi_ref={phi_ref}")
 
             except (IndexError, ValueError):
@@ -143,7 +148,7 @@ def main():
             bridge.send(rotate_angle)
 
             # 少し待ってからカメラ画像を取得
-            time.sleep(0.15)
+            time.sleep(0.04)
             ret, img = cap.read()
             if not ret:
                 print("Warning: Failed to read from camera.")
@@ -156,7 +161,7 @@ def main():
             cv2.imshow("camera view", img)
 
             # 画像を保存
-            cv2.imwrite(f"{image_save_dir_70mm}interface_20250306_{i}.jpg", img)
+            cv2.imwrite(f"{image_save_dir_95mm}interface_20250306_{i}.jpg", img)
 
             # CSVへ書き込み
             writer.writerow([i, theta_ref, phi_ref])

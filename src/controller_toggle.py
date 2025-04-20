@@ -89,9 +89,9 @@ def main():
 
     # CSVログ用
     csv_filename_70mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\histeresis\\histeresis_70mm.csv"
-    csv_filename_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\histeresis\\histeresis_95mm.csv"
+    csv_filename_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\histeresis\\histeresis_95mm_315deg.csv"
     out_img_dir_70mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\histeresis\\images_70mm\\"
-    out_img_dir_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\histeresis\\images_95mm\\"
+    out_img_dir_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\histeresis\\images_95mm_315deg\\"
     i = 1
     j = 1
 
@@ -132,7 +132,7 @@ def main():
                 if toggle_state:
                     # (theta_ref, phi_ref) = (45, 0)
                     theta_ref = 90.0
-                    phi_ref = -135.0
+                    phi_ref = 315.0
                 else:
                     # (theta_ref, phi_ref) = (0, 0)
                     theta_ref = 0.000001
@@ -146,13 +146,13 @@ def main():
                 # CSVログに書き込み
                 writer.writerow([i, theta_ref, phi_ref])
                 # 画像保存
-                cv2.imwrite(f"{out_img_dir_95mm}histeresis_20250306_{i}.jpg", img)
+                cv2.imwrite(f"{out_img_dir_95mm}histeresis_20250307_{i}.jpg", img)
 
                 i += 1
             
             if key == ord('s'):
                 # 画像保存
-                cv2.imwrite(f"{out_img_dir_95mm}histeresis_20250306_start_{j}.jpg", img)
+                cv2.imwrite(f"{out_img_dir_95mm}histeresis_20250307_start_{j}.jpg", img)
                 j += 1
                 
             if key == ord('c'):

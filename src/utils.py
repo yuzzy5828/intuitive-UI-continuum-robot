@@ -108,7 +108,7 @@ def visualize_reference_point(p_center, rho, phi):
     px, py = p_center + h * np.cos(phi), p_center + h * np.sin(phi)
 
 def visualize_reference_trajectory(img, p_center):
-    cv2.circle(img, p_center, 70, (255, 0, 0), thickness=3)
+    cv2.circle(img, p_center, 100, (255, 0, 0), thickness=3)
     # cv2.rectangle(img, (p_center[0] - 50, p_center[1] - 25), (p_center[0] + 50, p_center[1] + 25), (255, 0, 0), thickness=3)
 
 def analyze_trajectory():
