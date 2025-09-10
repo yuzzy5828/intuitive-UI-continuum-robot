@@ -53,7 +53,7 @@ def main():
             if key == ord('q'):
                 break
 
-            if key == 13: # Enterに対応
+            if key == 13: # Enterで指令値を変更するイメージ
                 toggle_state = not toggle_state
                 if toggle_state:
                     theta_ref = 90.0
@@ -70,11 +70,11 @@ def main():
 
                 i += 1
             
-            if key == ord('s'):
+            if key == ord('s'): # saveのs
                 cv2.imwrite(f"{out_img_dir}histeresis_20250307_start_{j}.jpg", img)
                 j += 1
                 
-            if key == ord('c'):
+            if key == ord('c'): # changeのc
                 visualize_circle = not visualize_circle 
 
     cap.release()

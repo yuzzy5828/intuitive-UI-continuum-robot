@@ -21,16 +21,7 @@ class Model:
         self.rotate_angle = np.zeros(4)
 
     def cal_rotate_angle(self, theta, phi):
-        """
-        目標の曲げ角 (theta) と回転角 (phi) に基づいて、モータの増分回転角度を計算します。
         
-        Args:
-            theta (float): 曲げ角 [度]。
-            phi (float): 回転角 [度]。
-
-        Returns:
-            np.ndarray: モータの増分回転角度のリスト [度]。
-        """
         # 度からラジアンへ変換し、phiの符号を反転
         phi_rad = -phi * np.pi / 180.0
         theta_rad = theta * np.pi / 180.0
@@ -64,18 +55,7 @@ class Model:
 
 
 class SerialBridge:
-    """
-    センサおよびアクチュエータ用のArduinoとシリアル通信を行うクラス。
-    """
     def __init__(self, in_port='/dev/ttyUSB0', out_port='/dev/ttyACM0', baudrate=9600):
-        """
-        シリアル接続を初期化します。
-        
-        Args:
-            in_port (str): センサ用Arduinoのポート。
-            out_port (str): アクチュエータ用Arduinoのポート。
-            baudrate (int): 通信速度。
-        """
         self.ser_in = None
         self.ser_out = None
         
@@ -99,12 +79,7 @@ class SerialBridge:
         time.sleep(5)  # Arduinoのリセット待ち
 
     def receive(self):
-        """
-        センサ用Arduinoから1行の文字列を受信し、デコードして返します。
-        
-        Returns:
-            str: 受信した文字列、または受信失敗時は空文字列。
-        """
+        # strでの指令値受信用
         if self.ser_in and self.ser_in.is_open:
             try:
                 line = self.ser_in.readline().decode('utf-8').strip()
@@ -115,12 +90,7 @@ class SerialBridge:
         return ""
 
     def send(self, command):
-        """
-        アクチュエータ用Arduinoへコマンドを送信します。
-        
-        Args:
-            command (list, np.ndarray, str): 送信するコマンド。
-        """
+        # strでの回転量送信用
         if self.ser_out and self.ser_out.is_open:
             try:
                 if isinstance(command, (list, np.ndarray)):
@@ -132,9 +102,6 @@ class SerialBridge:
                 print(f"Error sending data: {e}")
 
     def close(self):
-        """
-        開いているシリアルポートをすべて閉じます。
-        """
         if self.ser_in and self.ser_in.is_open:
             self.ser_in.close()
             print("Sensor serial port closed.")

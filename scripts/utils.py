@@ -82,39 +82,9 @@ def cal_current_degree(image, image_init):
     
     return h_current, phi_current # h_current: p1とp2の距離, phi_current: p1とp2,p3が作る角度[ラジアン]
 
-def visualize_reference_point(img, p_center, rho, phi):
-    """
-    画像上に理論上の目標位置を可視化します。
-    
-    Args:
-        img (np.ndarray): 可視化する画像。
-        p_center (list): 画像の中心座標 [x, y]。
-        rho (float): 目標曲率。
-        phi (float): 目標回転角 [度]。
-    """
-    # この関数はrho, phiをピクセル座標に変換するロジックが必要だが、元のコードにはないため保留
-    # 仮として、円を描画する関数を呼び出す
-    print("Function `visualize_reference_point` needs implementation.")
-    pass
-
 def visualize_reference_trajectory(img, p_center):
-    """
-    画像上に目標軌跡として円を描画します。
-    
-    Args:
-        img (np.ndarray): 可視化する画像。
-        p_center (list): 画像の中心座標 [x, y]。
-    """
-    cv2.circle(img, (p_center[0], p_center[1]), 100, (255, 0, 0), thickness=3)
 
-def analyze_trajectory():
-    """
-    先端の動きを一枚の画像に表示させるための関数。
-    
-    この関数は、時系列で得られた先端位置をプロットするなどの処理を実装します。
-    """
-    print("Function `analyze_trajectory` needs implementation.")
-    pass
+    cv2.circle(img, (p_center[0], p_center[1]), 100, (255, 0, 0), thickness=3)
 
 def plot_data_from_csv(csv_path, title, x_label, y_label, save_path=None):
     """
