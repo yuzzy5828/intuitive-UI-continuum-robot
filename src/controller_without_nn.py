@@ -102,9 +102,9 @@ def main():
 
     # CSVファイルを開く
     csv_path_70mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\interface\\interface_70mm.csv"
-    csv_path_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\interface\\interface_100mm_3.csv"
+    csv_path_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250606\\interface\\interface_100mm_3.csv"
     image_save_dir_70mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\interface\\images_70mm\\"
-    image_save_dir_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250306\\interface\\images_100mm_3\\"
+    image_save_dir_95mm = "C:\\Users\\user\\venv\\soft_robot\\intuitive-UI-continuum-robot\\data\\20250606\\interface\\images_100mm_3\\"
 
     with open(csv_path_95mm, 'w', newline='') as f: #####
         writer = csv.writer(f)

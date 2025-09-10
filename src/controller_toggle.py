@@ -73,7 +73,7 @@ class SerialBridge:
 
 def main():
     # シリアルブリッジ作成
-    bridge = SerialBridge(in_port='COM3', out_port='COM5', baudrate=9600)
+    bridge = SerialBridge(in_port='COM5', out_port='COM3', baudrate=9600)
     model = Model()
 
     cap = cv2.VideoCapture(0)
